@@ -68,11 +68,13 @@ class ProcessBar(ConsoleColorMixin):
         self.msg = msg
         self.bar_length = 100
 
-    def print(self, cur):
+    def print(self, cur=None, total=None):
         if self.begin_time is None:
             self.begin()
+        self.total = total if total is not None else self.total
+        self.cur = cur = cur if cur is not None else self.cur + 1
         du = datetime.now() - self.begin_time
-        percent = cur / self.total
+        percent = cur / self.total if self.total != 0 else 0
         string = self.fmt2.format(**{
             'begin': self.begin_time,
             'elapsed': du,
